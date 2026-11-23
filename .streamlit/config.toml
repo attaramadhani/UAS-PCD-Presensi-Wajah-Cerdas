@@ -1,0 +1,21 @@
+[theme]
+base = "light"
+primaryColor = "#2563EB"
+backgroundColor = "#F1F5F9"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#0F172A"
+borderColor = "#E2E8F0"
+dataframeBorderColor = "#E2E8F0"
+dataframeHeaderBackgroundColor = "#F8FAFC"
+dataframeHeaderTextColor = "#1E293B"
+baseRadius = "0.75rem"
+buttonRadius = "0.625rem"
+showWidgetBorder = true
+showSidebarBorder = true
+metricValueFontSize = "1.35rem"
+metricValueFontWeight = 700
+
+[theme.sidebar]
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F8FAFC"
+borderColor = "#E2E8F0"

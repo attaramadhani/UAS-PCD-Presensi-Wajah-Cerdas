@@ -1,0 +1,5 @@
+Kondisi Pencahayaan,Jumlah Uji,Deteksi Tanpa CLAHE (%),Deteksi Dengan Adaptive CLAHE (%),Skor Rerata Raw,Skor Rerata Enhanced
+Normal (Gamma 1.0),60,100.0,100.0,0.9456,0.9438
+Gelap Terkontrol (Gamma 2.5),60,100.0,100.0,0.9434,0.9376
+Gelap Terkontrol (Gamma 3.5),60,100.0,100.0,0.9372,0.9357
+Gelap Terkontrol (Gamma 4.5),60,96.67,100.0,0.9289,0.9327

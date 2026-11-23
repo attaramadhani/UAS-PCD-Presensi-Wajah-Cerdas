@@ -1,0 +1,34 @@
+# Python cache & environment
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+.env
+
+# Dataset mentah berukuran besar (unduh/siapkan ulang sesuai panduan README)
+data/raw_lfw/
+data/spoof_dataset/real/*
+!data/spoof_dataset/real/.gitkeep
+data/spoof_dataset/spoof/*
+!data/spoof_dataset/spoof/.gitkeep
+data/wider_lowlight/*
+!data/wider_lowlight/.gitkeep
+
+# Basis data biometrik lokal & log presensi pribadi (privasi)
+artifacts/db/face_embeddings.npz
+artifacts/db/presensi.db
+artifacts/db/presensi.db-*
+artifacts/db/students_master.csv
+artifacts/attendance_logs/*.csv
+!artifacts/attendance_logs/.gitkeep
+
+# Temporary / OS / Office lock files
+.DS_Store
+Thumbs.db
+~$*
+.~lock.*
+*.tmp
+*.log

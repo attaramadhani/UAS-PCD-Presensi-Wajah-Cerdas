@@ -1,0 +1,9 @@
+{
+  "preset": "Perkuliahan / Sekolah",
+  "badge": "Presensi Kelas Perkuliahan",
+  "subjek": "Mahasiswa",
+  "id_label": "NIM",
+  "group_label": "Kelas",
+  "absent_label": "Alpa",
+  "session_default": "Pertemuan_14"
+}
