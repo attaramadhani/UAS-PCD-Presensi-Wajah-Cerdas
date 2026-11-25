@@ -78,202 +78,251 @@ LABEL_PRESETS = {
 
 
 st.set_page_config(
-    page_title="Presensi Wajah Cerdas PCD | YuNet · SFace · LBP",
-    page_icon="🎯",
+    page_title="Sistem Presensi Biometrik Wajah | PCD",
     layout="wide",
     initial_sidebar_state="auto",
 )
 
 
 def inject_custom_css():
-    """Menyuntikkan styling modern bergaya dashboard Computer Vision akademis."""
+    """Menyuntikkan styling editorial daylight terstruktur sesuai DESIGN.md."""
     st.markdown(
         """
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
-
-        html, body, [class*="css"] {
-            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        :root {
+            --bg-canvas: #F5F6F8;
+            --bg-surface: #FFFFFF;
+            --bg-subtle: #F8FAFC;
+            --border-hairline: #D8DFE8;
+            --ink-brand: #0F294A;
+            --ink-primary: #111827;
+            --ink-muted: #475569;
+            --accent-action: #1D4ED8;
+            --accent-action-hover: #1E40AF;
+            --status-ok-fg: #047857;
+            --status-ok-bg: #ECFDF5;
+            --status-ok-border: #A7F3D0;
+            --status-warn-fg: #92400E;
+            --status-warn-bg: #FFFBEB;
+            --status-warn-border: #FDE68A;
+            --status-err-fg: #B91C1C;
+            --status-err-bg: #FEF2F2;
+            --status-err-border: #FECACA;
+            --font-sans: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            --font-mono: ui-monospace, 'Cascadia Mono', 'SFMono-Regular', Consolas, monospace;
         }
 
-        /* Rapikan ruang kerja utama & sembunyikan elemen default yang mengganggu */
+        html, body, [class*="css"] {
+            font-family: var(--font-sans);
+            color: var(--ink-primary);
+        }
+
+        .stApp {
+            background-color: var(--bg-canvas);
+        }
+
+        /* Ruang kerja utama & kebersihan chrome default */
         .block-container {
-            padding-top: 3.25rem !important;
+            padding-top: 3rem !important;
             padding-bottom: 2.5rem !important;
             padding-left: 2rem !important;
             padding-right: 2rem !important;
-            max-width: 1400px !important;
+            max-width: 1380px !important;
         }
         #MainMenu, footer, .stAppDeployButton, [data-testid="stAppDeployButton"], [data-testid="stDeployButton"] {
             display: none !important;
             visibility: hidden;
         }
         header[data-testid="stHeader"] {
-            background: #F1F5F9 !important;
+            background: var(--bg-canvas) !important;
+            border-bottom: 1px solid var(--border-hairline);
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
             box-shadow: none !important;
         }
 
-        /* Hero Header Banner */
-        .hero-card {
-            background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 58%, #2563EB 100%);
-            border-radius: 16px;
-            padding: 1.45rem 1.75rem;
-            color: #F8FAFC;
-            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.22), 0 4px 10px -6px rgba(37, 99, 235, 0.25);
-            margin-bottom: 1.15rem;
+        /* Focus indicator yang jelas untuk aksesibilitas keyboard */
+        button:focus-visible,
+        [role="tab"]:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--accent-action) !important;
+            outline-offset: 2px !important;
+        }
+
+        /* Editorial Daylight Masthead */
+        .app-masthead {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-bottom: 2px solid var(--ink-brand);
+            border-radius: 8px;
+            padding: 1.05rem 1.35rem;
+            margin-bottom: 1rem;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
+            align-items: flex-end;
+            gap: 1rem 1.5rem;
         }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.14);
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            color: #E0F2FE;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            padding: 0.25rem 0.65rem;
-            border-radius: 999px;
-            margin-bottom: 0.45rem;
-        }
-        .hero-title {
-            font-size: 1.65rem;
-            font-weight: 800;
+        .masthead-title {
+            font-size: 1.55rem !important;
+            font-weight: 700 !important;
             letter-spacing: -0.02em;
-            margin: 0;
-            line-height: 1.2;
-            color: #FFFFFF;
+            margin: 0 !important;
+            padding: 0 !important;
+            line-height: 1.2 !important;
+            color: var(--ink-brand) !important;
         }
-        .hero-subtitle {
-            font-size: 0.90rem;
-            color: #CBD5E1;
-            margin: 0.35rem 0 0 0;
+        .masthead-subtitle {
+            font-size: 0.88rem;
+            color: var(--ink-muted);
+            margin: 0.3rem 0 0 0;
             line-height: 1.45;
         }
-        .hero-pills {
+        .masthead-telemetry {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .hero-pill {
-            background: rgba(15, 23, 42, 0.42);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 10px;
-            padding: 0.45rem 0.8rem;
-            font-size: 0.78rem;
-            color: #F1F5F9;
-            display: flex;
             align-items: center;
-            gap: 0.45rem;
+            gap: 0.5rem 1rem;
+            padding-top: 0.15rem;
+        }
+        .telemetry-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.42rem;
+            font-size: 0.80rem;
+            color: var(--ink-primary);
+            padding-left: 0.85rem;
+            border-left: 1px solid var(--border-hairline);
+        }
+        .telemetry-item:first-child {
+            padding-left: 0;
+            border-left: none;
+        }
+        .telemetry-label {
+            color: var(--ink-muted);
+            font-weight: 500;
+        }
+        .telemetry-val {
+            font-family: var(--font-mono);
+            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+            color: var(--ink-brand);
+        }
+        .dot-status {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
         }
         .dot-green {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #34D399;
-            box-shadow: 0 0 6px #34D399;
-            display: inline-block;
+            background: var(--status-ok-fg);
         }
         .dot-amber {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #FBBF24;
-            box-shadow: 0 0 6px #FBBF24;
-            display: inline-block;
+            background: #B45309;
         }
 
-        /* Tab Pill Bar modern */
-        .stTabs [data-baseweb="tab-list"] {
-            gap: 0.45rem;
-            background: #FFFFFF;
-            padding: 0.4rem;
-            border-radius: 12px;
-            border: 1px solid #E2E8F0;
-            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-            margin-bottom: 0.75rem;
+        /* Tab Bar ber-garis bawah tajam */
+        .stTabs [data-baseweb="tab-list"],
+        .stTabs [role="tablist"] {
+            gap: 0.25rem;
+            background: var(--bg-surface);
+            padding: 0.3rem 0.4rem 0 0.4rem;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid var(--border-hairline);
+            margin-bottom: 0.9rem;
         }
-        .stTabs [data-baseweb="tab"] {
-            border-radius: 8px !important;
-            padding: 0.5rem 1rem !important;
+        .stTabs [data-baseweb="tab"],
+        .stTabs [role="tab"] {
+            border-radius: 6px 6px 0 0 !important;
+            padding: 0.55rem 1rem !important;
+            min-height: 44px !important;
             font-weight: 600 !important;
             font-size: 0.88rem !important;
-            color: #475569 !important;
+            color: var(--ink-muted) !important;
             border: none !important;
-            transition: all 0.18s ease;
+            border-bottom: 2px solid transparent !important;
+            transition: background-color 0.15s ease, color 0.15s ease;
         }
-        .stTabs [data-baseweb="tab"]:hover {
-            background: #F1F5F9 !important;
-            color: #0F172A !important;
+        .stTabs [data-baseweb="tab"]:hover,
+        .stTabs [role="tab"]:hover {
+            background: var(--bg-subtle) !important;
+            color: var(--ink-primary) !important;
         }
-        .stTabs [aria-selected="true"] {
+        .stTabs [aria-selected="true"],
+        .stTabs [role="tab"][aria-selected="true"] {
             background: #EFF6FF !important;
-            color: #1D4ED8 !important;
+            color: var(--accent-action) !important;
             font-weight: 700 !important;
+            border-bottom: 2px solid var(--accent-action) !important;
         }
         .stTabs [data-baseweb="tab-highlight"] {
             display: none !important;
         }
 
-        /* Metric KPI Cards */
-        div[data-testid="stMetric"] {
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-left: 4px solid #2563EB;
-            border-radius: 12px;
-            padding: 0.85rem 1rem !important;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-        }
-        div[data-testid="stMetric"] label {
-            font-size: 0.78rem !important;
-            font-weight: 600 !important;
-            color: #64748B !important;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-        div[data-testid="stMetricValue"] {
-            color: #0F172A !important;
+        /* Tombol min-height konsisten */
+        .stButton > button,
+        .stDownloadButton > button {
+            min-height: 44px;
+            font-weight: 600;
+            border-radius: 6px !important;
         }
 
-        /* Kartu Kontainer Streamlit dengan Border */
+        /* Metric KPI Cards standar Streamlit (tanpa strip warna kiri) */
+        div[data-testid="stMetric"] {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 0.85rem 1rem !important;
+        }
+        div[data-testid="stMetric"] label {
+            font-size: 0.76rem !important;
+            font-weight: 600 !important;
+            color: var(--ink-muted) !important;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        div[data-testid="stMetricValue"] {
+            color: var(--ink-brand) !important;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Kartu Kontainer Streamlit dengan Hairline Border */
         div[data-testid="stVerticalBlockBorderWrapper"] {
-            background: #FFFFFF !important;
-            border-radius: 14px !important;
-            border-color: #E2E8F0 !important;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+            background: var(--bg-surface) !important;
+            border-radius: 8px !important;
+            border: 1px solid var(--border-hairline) !important;
+            box-shadow: none !important;
         }
 
         /* Dropzone Uploader */
         section[data-testid="stFileUploaderDropzone"] {
-            background: #F8FAFC !important;
-            border: 1.5px dashed #93C5FD !important;
-            border-radius: 12px !important;
+            background: var(--bg-subtle) !important;
+            border: 1px dashed #94A3B8 !important;
+            border-radius: 8px !important;
         }
         section[data-testid="stFileUploaderDropzone"]:hover {
-            border-color: #2563EB !important;
+            border-color: var(--accent-action) !important;
             background: #EFF6FF !important;
         }
 
-        /* Sidebar Cards & URL Box */
+        /* Sidebar Cards & LAN Box */
         .sidebar-box {
-            background: #F8FAFC;
-            border: 1px solid #E2E8F0;
-            border-radius: 12px;
-            padding: 0.85rem 0.95rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 0.8rem 0.9rem;
             margin-bottom: 0.75rem;
         }
         .sidebar-box-title {
-            font-size: 0.75rem;
+            font-size: 0.73rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #475569;
+            color: var(--ink-muted);
             margin-bottom: 0.45rem;
         }
         .status-row {
@@ -282,119 +331,152 @@ def inject_custom_css():
             align-items: center;
             font-size: 0.82rem;
             padding: 0.25rem 0;
-            color: #1E293B;
+            color: var(--ink-primary);
+            border-bottom: 1px solid #F1F5F9;
+        }
+        .status-row:last-child {
+            border-bottom: none;
         }
         .badge-ok {
-            background: #DCFCE7;
-            color: #166534;
-            padding: 0.14rem 0.55rem;
-            border-radius: 999px;
+            background: var(--status-ok-bg);
+            color: var(--status-ok-fg);
+            border: 1px solid var(--status-ok-border);
+            padding: 0.12rem 0.5rem;
+            border-radius: 4px;
             font-weight: 700;
             font-size: 0.72rem;
         }
         .badge-warn {
-            background: #FEF3C7;
-            color: #92400E;
-            padding: 0.14rem 0.55rem;
-            border-radius: 999px;
+            background: var(--status-warn-bg);
+            color: var(--status-warn-fg);
+            border: 1px solid var(--status-warn-border);
+            padding: 0.12rem 0.5rem;
+            border-radius: 4px;
             font-weight: 700;
             font-size: 0.72rem;
         }
         .lan-url {
-            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 0.84rem;
+            font-family: var(--font-mono);
+            font-size: 0.83rem;
             font-weight: 600;
-            background: #0F172A;
-            color: #38BDF8;
+            background: var(--ink-brand);
+            color: #F8FAFC;
             padding: 0.5rem 0.7rem;
-            border-radius: 8px;
+            border-radius: 6px;
             display: block;
             text-align: center;
             margin: 0.45rem 0;
             word-break: break-all;
         }
 
-        /* Step Guide & Info Strip */
+        /* Section Title, Info Strip & Empty Card */
         .section-title {
             font-size: 1.05rem;
             font-weight: 700;
-            color: #0F172A;
+            color: var(--ink-brand);
             margin: 0 0 0.2rem 0;
         }
         .section-sub {
             font-size: 0.84rem;
-            color: #64748B;
+            color: var(--ink-muted);
             margin: 0 0 0.75rem 0;
         }
         .strip-pill {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 0.55rem;
-            background: #EFF6FF;
-            border: 1px solid #BFDBFE;
-            color: #1E3A8A;
-            border-radius: 10px;
-            padding: 0.6rem 0.9rem;
-            font-size: 0.84rem;
+            gap: 0.5rem;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-hairline);
+            color: var(--ink-primary);
+            border-radius: 6px;
+            padding: 0.55rem 0.85rem;
+            font-size: 0.83rem;
             font-weight: 500;
-            margin: 0.5rem 0 0.85rem 0;
-        }
-        .empty-card {
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 14px;
-            padding: 1.5rem;
-            text-align: center;
-            color: #475569;
-        }
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-            gap: 0.75rem;
             margin: 0.45rem 0 0.85rem 0;
         }
+        .empty-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 1.65rem 1.25rem;
+            text-align: center;
+            color: var(--ink-muted);
+        }
+        .empty-card-title {
+            font-size: 0.96rem;
+            font-weight: 700;
+            color: var(--ink-brand);
+            margin-bottom: 0.35rem;
+        }
+
+        /* Asymmetric Metric Strip (Hero Lead Readout + Compact Telemetry Readouts) */
+        .kpi-grid {
+            display: grid;
+            width: 100%;
+            box-sizing: border-box;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 0.65rem;
+            margin: 0.45rem 0 0.85rem 0;
+        }
+        .kpi-grid--asymmetric {
+            grid-template-columns: 1.45fr repeat(auto-fit, minmax(0, 1fr));
+        }
+        .kpi-grid--asymmetric.kpi-grid--n3 {
+            grid-template-columns: 1.45fr 1fr 1fr;
+        }
+        .kpi-grid--asymmetric.kpi-grid--n4 {
+            grid-template-columns: 1.45fr 1fr 1fr 1fr;
+        }
         .kpi-card {
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-left: 4px solid var(--kpi-accent, #2563EB);
-            border-radius: 12px;
-            padding: 0.85rem 1rem;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 0.78rem 0.95rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
         }
+        .kpi-card--lead {
+            background: var(--bg-subtle);
+            border-top: 2px solid var(--kpi-accent, var(--ink-brand));
+        }
         .kpi-label {
-            font-size: 0.73rem;
+            font-size: 0.72rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            color: #64748B;
+            color: var(--ink-muted);
             line-height: 1.3;
-            margin-bottom: 0.28rem;
+            margin-bottom: 0.25rem;
         }
         .kpi-value {
-            font-size: clamp(1.1rem, 1.55vw, 1.38rem);
-            font-weight: 800;
-            color: #0F172A;
+            font-family: var(--font-sans);
+            font-variant-numeric: tabular-nums;
+            font-size: clamp(1.05rem, 1.4vw, 1.32rem);
+            font-weight: 700;
+            color: var(--ink-brand);
             line-height: 1.25;
             white-space: normal;
             word-break: break-word;
         }
+        .kpi-card--lead .kpi-value {
+            font-size: clamp(1.18rem, 1.6vw, 1.48rem);
+        }
         .kpi-sub {
             font-size: 0.76rem;
-            font-weight: 600;
-            color: #475569;
-            margin-top: 0.2rem;
+            font-weight: 500;
+            color: var(--ink-muted);
+            margin-top: 0.22rem;
         }
+
+        /* Status Bar Sesi Aktif / Terkunci (Hairline Flat, Tanpa Gradient) */
         .session-open-bar {
-            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
-            border: 1px solid #6EE7B7;
-            border-left: 5px solid #059669;
-            border-radius: 12px;
-            padding: 0.85rem 1.1rem;
+            background: var(--status-ok-bg);
+            border: 1px solid var(--status-ok-border);
+            border-radius: 8px;
+            padding: 0.8rem 1.05rem;
             color: #064E3B;
             margin-bottom: 0.85rem;
             display: flex;
@@ -404,48 +486,56 @@ def inject_custom_css():
             gap: 0.6rem;
         }
         .session-locked-banner {
-            background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
-            border: 1px solid #FCD34D;
-            border-left: 5px solid #D97706;
-            border-radius: 12px;
-            padding: 0.9rem 1.15rem;
-            color: #78350F;
+            background: var(--status-warn-bg);
+            border: 1px solid var(--status-warn-border);
+            border-radius: 8px;
+            padding: 0.85rem 1.1rem;
+            color: var(--status-warn-fg);
             margin-bottom: 0.85rem;
         }
         .sess-chips {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.38rem;
+            gap: 0.4rem;
             margin-top: 0.42rem;
         }
         .sess-chip {
-            background: rgba(255, 255, 255, 0.78);
-            border: 1px solid #A7F3D0;
-            color: #065F46;
-            border-radius: 999px;
-            padding: 0.16rem 0.58rem;
-            font-size: 0.76rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--status-ok-border);
+            color: var(--status-ok-fg);
+            border-radius: 4px;
+            padding: 0.14rem 0.5rem;
+            font-size: 0.75rem;
             font-weight: 600;
+            font-variant-numeric: tabular-nums;
         }
         .strip-chip {
-            background: rgba(255, 255, 255, 0.72);
-            border: 1px solid #BFDBFE;
-            color: #1E3A8A;
-            border-radius: 8px;
-            padding: 0.18rem 0.55rem;
-            font-size: 0.79rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            color: var(--ink-brand);
+            border-radius: 4px;
+            padding: 0.16rem 0.5rem;
+            font-size: 0.78rem;
+            font-variant-numeric: tabular-nums;
         }
         .desktop-spacer {
-            height: 1.75rem;
+            height: 1.5rem;
         }
         .desktop-spacer-sm {
             height: 0.35rem;
         }
 
-        /* Responsif khusus layar HP (<= 768px) */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+
+        /* Responsif Mobile (<= 768px) */
         @media (max-width: 768px) {
             .block-container {
-                padding-top: 3.45rem !important;
+                padding-top: 3.35rem !important;
                 padding-left: 0.75rem !important;
                 padding-right: 0.75rem !important;
                 padding-bottom: 2rem !important;
@@ -453,68 +543,78 @@ def inject_custom_css():
             .desktop-spacer, .desktop-spacer-sm {
                 display: none !important;
             }
-            .hero-card {
-                padding: 0.9rem 1rem !important;
-                border-radius: 14px;
-                gap: 0.55rem;
+            .app-masthead {
+                padding: 0.85rem 0.95rem !important;
+                gap: 0.6rem;
                 margin-bottom: 0.75rem;
             }
-            .hero-badge {
-                font-size: 0.62rem;
-                padding: 0.18rem 0.5rem;
-                margin-bottom: 0.3rem;
+            .masthead-title {
+                font-size: 1.2rem !important;
             }
-            .hero-title {
-                font-size: 1.18rem !important;
-                line-height: 1.25 !important;
+            .masthead-subtitle {
+                font-size: 0.76rem;
+                margin-top: 0.2rem;
             }
-            .hero-subtitle {
-                font-size: 0.74rem;
-                margin-top: 0.22rem;
-                line-height: 1.35;
+            .masthead-telemetry {
+                gap: 0.35rem 0.65rem;
+                width: 100%;
+                border-top: 1px solid var(--border-hairline);
+                padding-top: 0.45rem;
             }
-            .hero-pills {
-                gap: 0.35rem;
+            .telemetry-item {
+                font-size: 0.72rem;
+                padding-left: 0;
+                border-left: none;
             }
-            .hero-pill {
-                font-size: 0.69rem;
-                padding: 0.25rem 0.52rem;
-                border-radius: 8px;
-            }
-            .stTabs [data-baseweb="tab-list"] {
+            .stTabs [data-baseweb="tab-list"],
+            .stTabs [role="tablist"] {
                 display: grid !important;
                 grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-                gap: 0.32rem !important;
-                padding: 0.32rem !important;
+                gap: 0.3rem !important;
+                padding: 0.3rem !important;
                 overflow: visible !important;
+                border-radius: 8px !important;
             }
-            .stTabs [data-baseweb="tab"] {
-                padding: 0.44rem 0.45rem !important;
-                font-size: 0.80rem !important;
+            .stTabs [data-baseweb="tab"],
+            .stTabs [role="tab"] {
+                padding: 0.5rem 0.4rem !important;
+                min-height: 44px !important;
+                height: auto !important;
+                font-size: 0.82rem !important;
                 justify-content: center !important;
                 width: 100% !important;
                 margin: 0 !important;
                 white-space: nowrap !important;
+                border-radius: 6px !important;
             }
-            .kpi-grid {
+            .kpi-grid,
+            .kpi-grid--asymmetric,
+            .kpi-grid--asymmetric.kpi-grid--n3,
+            .kpi-grid--asymmetric.kpi-grid--n4 {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 0.5rem;
             }
+            .kpi-card--lead {
+                grid-column: span 1;
+            }
+            .kpi-grid--asymmetric.kpi-grid--n3 .kpi-card--lead {
+                grid-column: 1 / -1;
+            }
             .kpi-card {
-                padding: 0.65rem 0.72rem;
+                padding: 0.65rem 0.75rem;
             }
             .kpi-label {
-                font-size: 0.67rem;
+                font-size: 0.68rem;
             }
             .kpi-value {
-                font-size: 1.05rem;
+                font-size: 1.02rem;
             }
             .kpi-sub {
-                font-size: 0.69rem;
+                font-size: 0.70rem;
             }
             .strip-pill {
-                font-size: 0.75rem;
-                padding: 0.45rem 0.6rem;
+                font-size: 0.76rem;
+                padding: 0.45rem 0.65rem;
                 gap: 0.35rem;
             }
             .session-open-bar {
@@ -598,51 +698,64 @@ def _on_custom_label_change():
 
 
 def render_hero_banner(n_registered: int, antispoof_ready: bool, cfg: dict, spoof_tag: str = "Hybrid ONNX+SVM"):
-    """Menampilkan header utama aplikasi beserta indikator kesiapan pipeline."""
+    """Menampilkan masthead editorial aplikasi dan telemetri kesiapan pipeline."""
     spoof_dot = "dot-green" if antispoof_ready else "dot-amber"
-    spoof_lbl = f"Anti-Spoofing: {spoof_tag}" if antispoof_ready else "Anti-Spoofing: Mode Heuristik"
+    spoof_lbl = spoof_tag if antispoof_ready else "Heuristik"
     st.markdown(
         f"""
-        <div class="hero-card">
+        <header class="app-masthead">
             <div>
-                <div class="hero-badge">{html.escape(cfg["badge"])} · PCD</div>
-                <div class="hero-title">🎯 Sistem Presensi Wajah Cerdas</div>
-                <p class="hero-subtitle">
-                    Adaptive CLAHE · YuNet 5-Landmark · SFace 128-D · Hybrid MiniFASNet + LBP/FFT
+                <h1 class="masthead-title">Sistem Presensi Biometrik Wajah</h1>
+                <p class="masthead-subtitle">
+                    Konteks {html.escape(cfg["badge"])} · Adaptive CLAHE, YuNet 5-Landmark, SFace 128-D, Anti-Spoofing Hybrid
                 </p>
             </div>
-            <div class="hero-pills">
-                <div class="hero-pill"><span class="dot-green"></span> YuNet + SFace ONNX</div>
-                <div class="hero-pill"><span class="{spoof_dot}"></span> {html.escape(spoof_lbl)}</div>
-                <div class="hero-pill">👥 Terdaftar: <strong>{n_registered}</strong> {html.escape(cfg["subjek"])}</div>
+            <div class="masthead-telemetry">
+                <div class="telemetry-item">
+                    <span class="dot-status dot-green"></span>
+                    <span class="telemetry-label">Detektor</span>
+                    <span class="telemetry-val">YuNet + SFace</span>
+                </div>
+                <div class="telemetry-item">
+                    <span class="dot-status {spoof_dot}"></span>
+                    <span class="telemetry-label">Liveness</span>
+                    <span class="telemetry-val">{html.escape(spoof_lbl)}</span>
+                </div>
+                <div class="telemetry-item">
+                    <span class="telemetry-label">Terdaftar</span>
+                    <span class="telemetry-val">{n_registered} {html.escape(cfg["subjek"])}</span>
+                </div>
             </div>
-        </div>
+        </header>
         """,
         unsafe_allow_html=True,
     )
 
 
 def render_kpi_cards_html(items):
-    """Membangun markup HTML kartu metrik responsif tanpa pemotongan elipsis."""
+    """Membangun markup HTML readout metrik asimetris tanpa pemotongan elipsis."""
     cards_html = []
-    for it in items:
-        accent = html.escape(str(it.get("accent", "#2563EB")))
+    n_items = len(items)
+    grid_cls = f"kpi-grid kpi-grid--asymmetric kpi-grid--n{n_items}" if n_items >= 3 else "kpi-grid"
+    for idx, it in enumerate(items):
+        accent = html.escape(str(it.get("accent", "#0F294A")))
         label = html.escape(str(it["label"]))
         value = html.escape(str(it["value"]))
         sub = it.get("sub")
         sub_html = f'<div class="kpi-sub">{html.escape(str(sub))}</div>' if sub else ""
+        card_cls = "kpi-card kpi-card--lead" if (idx == 0 and len(items) >= 3) else "kpi-card"
         cards_html.append(
-            f'<div class="kpi-card" style="--kpi-accent:{accent};">'
+            f'<div class="{card_cls}" style="--kpi-accent:{accent};">'
             f'<div class="kpi-label">{label}</div>'
             f'<div class="kpi-value">{value}</div>'
             f'{sub_html}'
             f'</div>'
         )
-    return f'<div class="kpi-grid">{"".join(cards_html)}</div>'
+    return f'<div class="{grid_cls}">{"".join(cards_html)}</div>'
 
 
 def render_kpi_cards(items):
-    """Merender kartu metrik responsif tanpa pemotongan elipsis pada label maupun nilai."""
+    """Merender readout metrik responsif tanpa pemotongan elipsis pada label maupun nilai."""
     st.markdown(render_kpi_cards_html(items), unsafe_allow_html=True)
 
 
@@ -792,7 +905,7 @@ def render_histogram_l(raw_bgr, enh_bgr):
         ax.axvline(mean_enh, color="#059669", linestyle="-.", linewidth=1.4, alpha=0.85, zorder=5)
 
     title_txt = (
-        "Distribusi Luminansi L* (Cahaya Normal — Asli & Sesudah Berimpit Identik)"
+        "Distribusi Luminansi L* (Cahaya Normal: Asli & Sesudah Berimpit Identik)"
         if is_same
         else "Distribusi Luminansi L* Sebelum vs Sesudah Adaptive CLAHE"
     )
@@ -958,7 +1071,7 @@ def reset_live_state(sess):
     sess["live_light_badge"] = ""
     sess["live_event"] = (
         "info",
-        "🎥 Webcam aktif — arahkan wajah ke kamera untuk presensi otomatis (batas 1× per orang).",
+        "Webcam aktif. Arahkan wajah ke kamera untuk presensi otomatis (batas 1× per orang).",
     )
     sess["live_hud_text"] = ""
     sess["live_hud_kind"] = "info"
@@ -1146,26 +1259,26 @@ def handle_live_webcam_frame(
     )
 
     if enh_info.get("applied"):
-        sess["live_light_badge"] = f"🌙 CLAHE · L* {enh_info['before_l']}→{enh_info['after_l']}"
+        sess["live_light_badge"] = f"CLAHE · L* {enh_info['before_l']}→{enh_info['after_l']}"
     else:
-        sess["live_light_badge"] = f"☀️ Normal · L* {enh_info['before_l']}"
+        sess["live_light_badge"] = f"Normal · L* {enh_info['before_l']}"
 
     if newly_recorded:
         rid, rnama, rtime = newly_recorded[0]
-        msg = f"✅ **{rnama}** (`{rid}`) otomatis tercatat **Hadir** pukul `{rtime[-8:]}` · Terkunci maks. 1×/sesi."
+        msg = f"**{rnama}** (`{rid}`) otomatis tercatat **Hadir** pukul `{rtime[-8:]}` (terkunci maks. 1×/sesi)."
         sess["live_event"] = ("success", msg)
-        sess["live_hud_text"] = f"✓ {rnama} tercatat Hadir ({rtime[-8:]}) · Batas 1×/sesi"
+        sess["live_hud_text"] = f"{rnama} tercatat Hadir ({rtime[-8:]}) · Batas 1×/sesi"
         sess["live_hud_kind"] = "success"
         sess["live_just_recorded"] = True
-        sess["live_toast_msg"] = f"✅ {rnama} otomatis tercatat Hadir ({rtime[-8:]})"
+        sess["live_toast_msg"] = f"{rnama} otomatis tercatat Hadir ({rtime[-8:]})"
     elif spoof_hits:
         atk_name = spoof_hits[0].get("attack_type", "Layar HP")
         pr = float(spoof_hits[0].get("prob_real", 0.0))
         sess["live_event"] = (
             "error",
-            f"🚨 **SPOOF ({atk_name})** terdeteksi & diblokir! (Skor Real: `{pr:.2f}`)",
+            f"**SPOOF ({atk_name})** terdeteksi dan diblokir (Skor Real: `{pr:.2f}`).",
         )
-        sess["live_hud_text"] = f"🚨 SPOOF ({atk_name}) diblokir · Real {pr:.2f}"
+        sess["live_hud_text"] = f"SPOOF ({atk_name}) diblokir · Real {pr:.2f}"
         sess["live_hud_kind"] = "error"
         now_mono = time.monotonic()
         if now_mono - float(sess.get("live_last_spoof_ts", 0.0)) >= 4.0:
@@ -1179,30 +1292,30 @@ def handle_live_webcam_frame(
         names_str = ", ".join(already_seen)
         sess["live_event"] = (
             "info",
-            f"ℹ️ **{names_str}** sudah tercatat hadir pada sesi ini (batasan maks. 1× per orang).",
+            f"**{names_str}** sudah tercatat hadir pada sesi ini (batasan maks. 1× per orang).",
         )
-        sess["live_hud_text"] = f"✓ {names_str} sudah absen (maks. 1×/sesi)"
+        sess["live_hud_text"] = f"{names_str} sudah absen (maks. 1×/sesi)"
         sess["live_hud_kind"] = "info"
     elif len(db_nims) > 0 and count_session_present(sess) >= len(db_nims):
         sess["live_event"] = (
             "success",
-            f"🎉 Seluruh {subjek_lbl.lower()} terdaftar (**{len(db_nims)}/{len(db_nims)}**) sudah tercatat Hadir! Matikan webcam lalu tutup sesi.",
+            f"Seluruh {subjek_lbl.lower()} terdaftar (**{len(db_nims)}/{len(db_nims)}**) sudah tercatat Hadir. Matikan webcam lalu tutup sesi.",
         )
-        sess["live_hud_text"] = f"🎉 Semua {subjek_lbl.lower()} ({len(db_nims)}/{len(db_nims)}) sudah Hadir"
+        sess["live_hud_text"] = f"Semua {subjek_lbl.lower()} ({len(db_nims)}/{len(db_nims)}) sudah Hadir"
         sess["live_hud_kind"] = "success"
     elif seen_new_ids:
         first_rid = next(iter(seen_new_ids))
         cur_s = int(streak_map.get(first_rid, 1))
         sess["live_event"] = (
             "info",
-            f"🔎 Wajah dikenali — tahan sebentar untuk konfirmasi otomatis ({cur_s}/{confirm_n})...",
+            f"Wajah dikenali. Tahan sebentar untuk konfirmasi otomatis ({cur_s}/{confirm_n})...",
         )
         sess["live_hud_text"] = f"Memverifikasi wajah ({cur_s}/{confirm_n})..."
         sess["live_hud_kind"] = "info"
     elif n_unk_lv > 0:
         sess["live_event"] = (
             "warning",
-            f"⚠️ Wajah terdeteksi namun **belum terdaftar** di database {subjek_lbl.lower()}.",
+            f"Wajah terdeteksi tetapi **belum terdaftar** di database {subjek_lbl.lower()}.",
         )
         sess["live_hud_text"] = "Wajah belum terdaftar di database"
         sess["live_hud_kind"] = "warn"
@@ -1282,7 +1395,7 @@ def main():
     # SIDEBAR: STATUS PIPELINE, PARAMETER PCD, LABEL KUSTOM, & AKSES BROWSER HP
     # =========================================================================
     with st.sidebar:
-        st.markdown("### ⚙️ Panel Kontrol & Kalibrasi")
+        st.markdown("### Panel Kontrol & Kalibrasi")
         st.caption("Atur konteks presensi, label kustom, parameter deteksi, dan anti-spoofing secara langsung.")
 
         if antispoof.fas_models and antispoof.svm is not None:
@@ -1314,7 +1427,7 @@ def main():
                 on_change=_on_preset_change,
                 help="Pilih konteks cepat atau ubah langsung label di bawah sesuai kebutuhan.",
             )
-            with st.expander("✏️ Input Label Tersendiri"):
+            with st.expander("Input Label Tersendiri"):
                 st.text_input("Judul / Konteks Banner", key="lbl_badge", on_change=_on_custom_label_change)
                 st.text_input("Label Subjek (Orang)", key="lbl_subjek", on_change=_on_custom_label_change)
                 st.text_input("Label Nomor ID", key="lbl_id", on_change=_on_custom_label_change)
@@ -1343,12 +1456,12 @@ def main():
         st.markdown(
             f"""
             <div class="sidebar-box">
-                <div class="sidebar-box-title">📱 Akses Browser HP Operator</div>
+                <div class="sidebar-box-title">Akses Browser HP Operator</div>
                 <div style="font-size:0.79rem; color:#475569; line-height:1.4;">
                     Hubungkan HP operator/kiosk ke Wi-Fi/hotspot yang sama dengan laptop, lalu buka URL ini (tanpa APK):
                 </div>
                 <span class="lan-url">http://{local_ip}:8501</span>
-                <div style="font-size:0.73rem; color:#64748B;">
+                <div style="font-size:0.74rem; color:#475569;">
                     Kamera terkunci di sisi Operator/Kiosk untuk mencegah presensi palsu jarak jauh.
                 </div>
             </div>
@@ -1372,10 +1485,10 @@ def main():
     group_lbl = cfg["group_label"]
 
     tab1, tab2, tab3, tab4 = st.tabs([
-        "📸 Presensi",
-        f"👥 {subjek_lbl}",
-        "🔬 Lab PCD",
-        "📊 Evaluasi",
+        "Presensi",
+        f"{subjek_lbl}",
+        "Lab PCD",
+        "Evaluasi",
     ])
 
     # -------------------------------------------------------------------------
@@ -1386,7 +1499,7 @@ def main():
         if sess["is_open"] and sess.get("expires_at") is not None:
             if datetime.now() >= sess["expires_at"]:
                 close_attendance_session(sess, db, id_lbl, group_lbl, cfg["absent_label"])
-                st.warning(f"⏰ Waktu sesi **{sess['last_closed_name']}** telah habis. Sesi ditutup otomatis dan rekap disimpan.")
+                st.warning(f"Waktu sesi **{sess['last_closed_name']}** telah habis. Sesi ditutup otomatis dan rekap disimpan.")
 
         if not sess["is_open"]:
             # =================================================================
@@ -1395,7 +1508,7 @@ def main():
             st.markdown(
                 f"""
                 <div class="session-locked-banner">
-                    <strong>🔒 Sesi Presensi Belum Dibuka</strong><br>
+                    <strong>Status: Sesi Presensi Belum Dibuka</strong><br>
                     <span style="font-size:0.86rem;">
                         Kamera dan pengunggahan foto dikunci untuk mencegah presensi di luar jadwal.
                         Operator harus membuka sesi terlebih dahulu sebelum merekam kehadiran {html.escape(subjek_lbl.lower())}.
@@ -1423,7 +1536,7 @@ def main():
                     dur_choice = st.selectbox("Durasi Presensi", options=list(dur_map.keys()), index=2)
                 with c_s3:
                     st.markdown("<div class='desktop-spacer'></div>", unsafe_allow_html=True)
-                    if st.button("🟢 Buka Sesi Presensi", type="primary", width="stretch"):
+                    if st.button("Buka Sesi Presensi", type="primary", width="stretch"):
                         clean_name = (new_sess_name or cfg["session_default"]).strip() or "Sesi_01"
                         now_dt = datetime.now()
                         mins = dur_map[dur_choice]
@@ -1444,21 +1557,21 @@ def main():
 
             if sess.get("last_closed_df") is not None and not sess["last_closed_df"].empty:
                 with st.container(border=True):
-                    st.markdown(f'<p class="section-title">📋 Rekap Final Sesi Terakhir: {html.escape(str(sess["last_closed_name"]))}</p>', unsafe_allow_html=True)
+                    st.markdown(f'<p class="section-title">Rekap Final Sesi Terakhir: {html.escape(str(sess["last_closed_name"]))}</p>', unsafe_allow_html=True)
                     sub_info = (
                         f"Tersimpan di **SQLite (`presensi.db`)** & CSV (`{sess['last_closed_file']}`)"
                         if sess.get("last_closed_file")
                         else "Tersimpan di **SQLite (`presensi.db`)**."
                     )
                     if sess.get("last_closed_spoofs", 0) > 0:
-                        sub_info += f" · 🚨 {sess['last_closed_spoofs']} percobaan spoof diblokir"
+                        sub_info += f" · {sess['last_closed_spoofs']} percobaan spoof diblokir"
                     st.caption(sub_info)
                     st.dataframe(sess["last_closed_df"], width="stretch", hide_index=True)
                     dl1, dl2 = st.columns(2)
                     with dl1:
                         csv_final = sess["last_closed_df"].to_csv(index=False).encode("utf-8")
                         st.download_button(
-                            "⬇️ Unduh Rekap CSV",
+                            "Unduh Rekap CSV",
                             data=csv_final,
                             file_name=sess.get("last_closed_file") or f"presensi_{sess['last_closed_name']}.csv",
                             mime="text/csv",
@@ -1467,7 +1580,7 @@ def main():
                     with dl2:
                         xlsx_final = db.export_excel_bytes(sess["last_closed_df"], sheet_name=sess["last_closed_name"])
                         st.download_button(
-                            "📊 Unduh Rekap Excel (.xlsx)",
+                            "Unduh Rekap Excel (.xlsx)",
                             data=xlsx_final,
                             file_name=f"presensi_{sess['last_closed_name']}.xlsx",
                             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -1480,7 +1593,7 @@ def main():
             orphan_csvs = [f for f in saved_csvs if f not in tracked_csvs]
             total_archives = len(df_sessions) + len(orphan_csvs)
 
-            with st.expander(f"🗂️ Riwayat & Kelola Presensi ({total_archives} arsip)", expanded=False):
+            with st.expander(f"Riwayat & Kelola Presensi ({total_archives} arsip)", expanded=False):
                 if total_archives == 0:
                     st.caption("Belum ada arsip sesi presensi yang tersimpan.")
                 else:
@@ -1490,7 +1603,7 @@ def main():
 
                         sess_options = df_sessions["ID Sesi"].tolist()
                         sess_labels = {
-                            int(r["ID Sesi"]): f"#{int(r['ID Sesi'])} — {r['Nama Sesi']} ({r['Ditutup']} · Hadir {r['Hadir']}/{r['Total']})"
+                            int(r["ID Sesi"]): f"#{int(r['ID Sesi'])} | {r['Nama Sesi']} ({r['Ditutup']} · Hadir {r['Hadir']}/{r['Total']})"
                             for _, r in df_sessions.iterrows()
                         }
                         pick_sid = st.selectbox(
@@ -1509,7 +1622,7 @@ def main():
                             s_csv = str(s_row["File CSV"]) or f"presensi_{s_name}.csv"
                             with act_c1:
                                 st.download_button(
-                                    "⬇️ Unduh CSV",
+                                    "Unduh CSV",
                                     data=df_rec.to_csv(index=False).encode("utf-8"),
                                     file_name=s_csv,
                                     mime="text/csv",
@@ -1518,7 +1631,7 @@ def main():
                                 )
                             with act_c2:
                                 st.download_button(
-                                    "📊 Unduh Excel (.xlsx)",
+                                    "Unduh Excel (.xlsx)",
                                     data=db.export_excel_bytes(df_rec, sheet_name=s_name),
                                     file_name=f"presensi_{s_name}_id{pick_sid}.xlsx",
                                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -1526,7 +1639,7 @@ def main():
                                     key=f"dl_xlsx_{pick_sid}",
                                 )
                             with act_c3:
-                                if st.button("🗑️ Hapus Sesi Ini", width="stretch", key=f"del_sid_{pick_sid}"):
+                                if st.button("Hapus Sesi Ini", width="stretch", key=f"del_sid_{pick_sid}"):
                                     db.delete_session(session_id=pick_sid)
                                     if sess.get("last_closed_file") == s_row["File CSV"]:
                                         sess["last_closed_df"] = None
@@ -1546,7 +1659,7 @@ def main():
                             lc1, lc2, lc3 = st.columns(3)
                             with lc1:
                                 st.download_button(
-                                    "⬇️ Unduh CSV",
+                                    "Unduh CSV",
                                     data=df_leg.to_csv(index=False).encode("utf-8"),
                                     file_name=pick_csv,
                                     mime="text/csv",
@@ -1555,7 +1668,7 @@ def main():
                                 )
                             with lc2:
                                 st.download_button(
-                                    "📊 Unduh Excel (.xlsx)",
+                                    "Unduh Excel (.xlsx)",
                                     data=db.export_excel_bytes(df_leg, sheet_name="Rekap_CSV"),
                                     file_name=pick_csv.replace(".csv", ".xlsx"),
                                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -1563,14 +1676,14 @@ def main():
                                     key="dl_leg_xlsx",
                                 )
                             with lc3:
-                                if st.button("🗑️ Hapus File CSV Ini", width="stretch", key="del_leg_csv"):
+                                if st.button("Hapus File CSV Ini", width="stretch", key="del_leg_csv"):
                                     db.delete_session(csv_filename=pick_csv)
                                     st.success(f"File {pick_csv} dihapus.")
                                     st.rerun()
 
                     st.divider()
                     confirm_wipe = st.checkbox("Konfirmasi: hapus seluruh riwayat presensi (SQLite & semua CSV)", key="confirm_wipe_logs")
-                    if st.button("🧹 Hapus Semua Riwayat Presensi", disabled=not confirm_wipe, width="stretch"):
+                    if st.button("Hapus Semua Riwayat Presensi", disabled=not confirm_wipe, width="stretch"):
                         db.delete_all_sessions()
                         sess["last_closed_df"] = None
                         sess["last_closed_file"] = None
@@ -1602,12 +1715,12 @@ def main():
                     f"""
                     <div class="session-open-bar">
                         <div>
-                            <strong>🟢 SESI AKTIF: {html.escape(session_name)}</strong>
+                            <strong>Sesi Aktif: {html.escape(session_name)}</strong>
                             <div class="sess-chips">
-                                <span class="sess-chip">🕒 {opened_txt}</span>
-                                <span class="sess-chip">⏳ {html.escape(rem_txt)}</span>
-                                <span class="sess-chip">✅ Hadir {tot_hadir_sess}/{len(db_nims)}</span>
-                                <span class="sess-chip">🛡️ Spoof {len(sess['spoof_logs'])}</span>
+                                <span class="sess-chip">Mulai {opened_txt}</span>
+                                <span class="sess-chip">{html.escape(rem_txt)}</span>
+                                <span class="sess-chip">Hadir {tot_hadir_sess}/{len(db_nims)}</span>
+                                <span class="sess-chip">Spoof {len(sess['spoof_logs'])}</span>
                             </div>
                         </div>
                     </div>
@@ -1616,7 +1729,7 @@ def main():
                 )
             with col_close:
                 st.markdown("<div class='desktop-spacer-sm'></div>", unsafe_allow_html=True)
-                if st.button("🔴 Tutup & Simpan", type="secondary", width="stretch"):
+                if st.button("Tutup & Simpan", type="secondary", width="stretch"):
                     close_attendance_session(sess, db, id_lbl, group_lbl, cfg["absent_label"])
                     st.rerun()
 
@@ -1638,14 +1751,14 @@ def main():
                     lc_top1, lc_top2 = st.columns([1.6, 1.4])
                     with lc_top1:
                         live_on = st.toggle(
-                            "🎥 Nyalakan Webcam Live",
+                            "Nyalakan Webcam Live",
                             key="live_cam_running",
                             help="Langsung membuka webcam browser secara live tanpa tombol foto. Setiap orang dibatasi maksimal 1× absen per sesi.",
                         )
                     with lc_top2:
-                        st.caption("🔒 Rekam otomatis · **Maks. 1× absen per orang** dalam 1 sesi.")
+                        st.caption("Rekam otomatis · Maks. 1× absen per orang dalam 1 sesi.")
 
-                    with st.expander("⚙️ Pengaturan Kamera Live & Mode Foto Manual", expanded=False):
+                    with st.expander("Pengaturan Kamera Live & Mode Foto Manual", expanded=False):
                         set1, set2, set3 = st.columns(3)
                         with set1:
                             confirm_frames = st.slider(
@@ -1695,7 +1808,7 @@ def main():
                     if sess.get("live_last_seq", 0) > 0:
                         reset_live_state(sess)
                     sample_labels = {
-                        f: ("Portrait Tunggal — Lena" if "lena" in f.lower() else ("Foto Grup Ramai — Solvay 1927 (29 Wajah)" if "solvay" in f.lower() else f))
+                        f: ("Portrait Tunggal: Lena" if "lena" in f.lower() else ("Foto Grup Ramai: Solvay 1927 (29 Wajah)" if "solvay" in f.lower() else f))
                         for f in demo_files
                     }
                     chosen_sample = st.selectbox("Pilih Citra Uji Bawaan", demo_files, format_func=lambda k: sample_labels.get(k, k))
@@ -1741,7 +1854,7 @@ def main():
 
                     ev_kind, ev_msg = sess.get(
                         "live_event",
-                        ("info", "🎥 Webcam aktif — arahkan wajah ke kamera untuk presensi otomatis (batas 1× per orang)."),
+                        ("info", "Webcam aktif. Arahkan wajah ke kamera untuk presensi otomatis (batas 1× per orang)."),
                     )
                     if ev_kind == "success":
                         st.success(ev_msg)
@@ -1754,18 +1867,18 @@ def main():
 
                     lk = sess.get("live_kpi", {"faces": 0, "sudah": 0, "spoof": 0, "unk": 0})
                     render_kpi_cards([
-                        {"label": "Wajah di Kamera", "value": str(lk.get("faces", 0)), "sub": f"Sudah absen: {lk.get('sudah', 0)}", "accent": "#2563EB"},
-                        {"label": "Hadir (Total Sesi)", "value": f"{count_session_present(sess)} / {len(db_nims)}", "sub": "Maks. 1× per orang", "accent": "#10B981"},
-                        {"label": "Ditolak (Spoof)", "value": str(lk.get("spoof", 0)), "sub": f"Total sesi: {len(sess['spoof_logs'])}", "accent": "#EF4444"},
-                        {"label": "Tidak Terdaftar", "value": str(lk.get("unk", 0)), "sub": "Belum Enroll", "accent": "#F59E0B"},
+                        {"label": "Hadir (Total Sesi)", "value": f"{count_session_present(sess)} / {len(db_nims)}", "sub": "Maks. 1× per orang", "accent": "#0F294A"},
+                        {"label": "Wajah di Kamera", "value": str(lk.get("faces", 0)), "sub": f"Sudah absen: {lk.get('sudah', 0)}", "accent": "#1D4ED8"},
+                        {"label": "Ditolak (Spoof)", "value": str(lk.get("spoof", 0)), "sub": f"Total sesi: {len(sess['spoof_logs'])}", "accent": "#B91C1C"},
+                        {"label": "Tidak Terdaftar", "value": str(lk.get("unk", 0)), "sub": "Belum Enroll", "accent": "#92400E"},
                     ])
 
                     col_lv_img, col_lv_tbl = st.columns([1.3, 1.05], gap="medium")
                     with col_lv_img:
                         with st.container(border=True):
-                            st.markdown('<p class="section-title">🎥 Live Webcam Presensi Otomatis</p>', unsafe_allow_html=True)
+                            st.markdown('<p class="section-title">Live Webcam Presensi Otomatis</p>', unsafe_allow_html=True)
                             st.markdown(
-                                '<p class="section-sub">Arahkan wajah ke kamera — kehadiran otomatis tercatat tanpa menekan tombol foto.</p>',
+                                '<p class="section-sub">Arahkan wajah ke kamera agar kehadiran otomatis tercatat tanpa menekan tombol foto.</p>',
                                 unsafe_allow_html=True,
                             )
                             overlay_payload = {
@@ -1802,7 +1915,7 @@ def main():
                                 st.dataframe(df_live, width="stretch", hide_index=True)
 
                             if sess["spoof_logs"]:
-                                st.caption(f"🚨 Log Spoof Diblokir ({len(sess['spoof_logs'])} kejadian):")
+                                st.caption(f"Log Spoof Diblokir ({len(sess['spoof_logs'])} kejadian):")
                                 st.dataframe(pd.DataFrame(sess["spoof_logs"][-4:]), width="stretch", hide_index=True)
 
                     # Cadangan jika trigger payload tiba namun belum diproses lewat callback
@@ -1846,10 +1959,10 @@ def main():
                 st.markdown(
                     """
                     <div class="empty-card">
-                        <div style="font-size:1.25rem; margin-bottom:0.35rem;">🎥 Sesi Terbuka — Siap Merekam Kehadiran</div>
+                        <div class="empty-card-title">Sesi Terbuka · Siap Merekam Kehadiran</div>
                         <div style="font-size:0.88rem; max-width:640px; margin:0 auto; line-height:1.5;">
-                            Nyalakan <strong>🎥 Nyalakan Webcam Live</strong> di atas untuk absen otomatis real-time (maksimal <strong>1× per orang</strong>),
-                            atau pilih <strong>Upload / HP</strong> untuk memotret rombongan lewat kamera belakang HP.
+                            Aktifkan <strong>Nyalakan Webcam Live</strong> di atas untuk absen otomatis real-time (maksimal <strong>1× per orang</strong>),
+                            atau pilih <strong>Upload / HP</strong> untuk mengunggah foto dari perangkat.
                         </div>
                     </div>
                     """,
@@ -1869,7 +1982,7 @@ def main():
                         )
                         st.dataframe(df_idle, width="stretch", hide_index=True)
                         with st.container(horizontal=True, gap="small"):
-                            if st.button("↩️ Reset Sesi", key="rst_idle"):
+                            if st.button("Reset Sesi", key="rst_idle"):
                                 sess["present_map"] = {}
                                 sess["manual_status_map"] = {}
                                 sess["spoof_logs"] = []
@@ -1879,21 +1992,21 @@ def main():
                                 reset_live_state(sess)
                                 st.rerun()
                             st.download_button(
-                                "⬇️ CSV",
+                                "Unduh CSV",
                                 data=df_idle.to_csv(index=False).encode("utf-8"),
                                 file_name=f"presensi_{session_name}.csv",
                                 mime="text/csv",
                                 key="dl_csv_idle",
                             )
                             st.download_button(
-                                "📊 Excel",
+                                "Unduh Excel",
                                 data=db.export_excel_bytes(df_idle, sheet_name=session_name),
                                 file_name=f"presensi_{session_name}.xlsx",
                                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                 key="dl_xl_idle",
                             )
                         if sess["spoof_logs"]:
-                            st.error(f"🚨 {len(sess['spoof_logs'])} percobaan Spoof diblokir pada sesi ini:")
+                            st.error(f"{len(sess['spoof_logs'])} percobaan Spoof diblokir pada sesi ini:")
                             st.dataframe(pd.DataFrame(sess["spoof_logs"][-5:]), width="stretch", hide_index=True)
             else:
                 # Untuk foto statis baru, ID yang sudah tercatat dari foto sebelumnya ditandai Biru ("Sudah Absen")
@@ -1929,21 +2042,21 @@ def main():
                 n_unk_now = sum(1 for r in face_results if r["status"] == "Tidak Terdaftar")
 
                 render_kpi_cards([
-                    {"label": "Wajah di Foto Ini", "value": str(len(face_results)), "sub": f"Sudah absen: {n_sudah_now}", "accent": "#2563EB"},
-                    {"label": "Hadir (Total Sesi)", "value": f"{count_session_present(sess)} / {len(db_nims)}", "sub": f"Foto ini: {n_hadir_now} cocok", "accent": "#10B981"},
-                    {"label": "Ditolak (Spoof)", "value": str(n_spoof_now), "sub": f"Total sesi: {len(sess['spoof_logs'])}", "accent": "#EF4444"},
-                    {"label": "Tidak Terdaftar", "value": str(n_unk_now), "sub": "Belum Enroll", "accent": "#F59E0B"},
+                    {"label": "Hadir (Total Sesi)", "value": f"{count_session_present(sess)} / {len(db_nims)}", "sub": f"Foto ini: {n_hadir_now} cocok", "accent": "#0F294A"},
+                    {"label": "Wajah di Foto Ini", "value": str(len(face_results)), "sub": f"Sudah absen: {n_sudah_now}", "accent": "#1D4ED8"},
+                    {"label": "Ditolak (Spoof)", "value": str(n_spoof_now), "sub": f"Total sesi: {len(sess['spoof_logs'])}", "accent": "#B91C1C"},
+                    {"label": "Tidak Terdaftar", "value": str(n_unk_now), "sub": "Belum Enroll", "accent": "#92400E"},
                 ])
 
                 if n_sudah_now > 0:
                     sudah_names = [r["nama"] for r in face_results if r["status"] == "Sudah Absen"]
-                    st.info(f"ℹ️ **{', '.join(sudah_names)}** sudah tercatat hadir sebelumnya pada sesi ini (dibatasi maksimal **1× absen per orang**).")
+                    st.info(f"**{', '.join(sudah_names)}** sudah tercatat hadir sebelumnya pada sesi ini (dibatasi maksimal **1× absen per orang**).")
 
-                light_icon = "🌙" if enh_info["applied"] else "☀️"
+                light_tag = "CLAHE Aktif" if enh_info["applied"] else "Pencahayaan Normal"
                 st.markdown(
                     f"""
                     <div class="strip-pill">
-                        <span class="strip-chip">{light_icon} <strong>{html.escape(str(enh_info['status_before']))}</strong></span>
+                        <span class="strip-chip"><strong>{light_tag}: {html.escape(str(enh_info['status_before']))}</strong></span>
                         <span class="strip-chip">L* <strong>{enh_info['before_l']} → {enh_info['after_l']}</strong> (γ={enh_info['gamma_used']})</span>
                         <span>{html.escape(str(enh_info['reason']))}</span>
                     </div>
@@ -1983,10 +2096,10 @@ def main():
                             st.dataframe(df_att, width="stretch", hide_index=True)
 
                             with st.container(horizontal=True, gap="small"):
-                                if st.button("🔄 Catat", help="Terapkan ulang hasil foto ini ke sesi aktif (mis. setelah menggeser slider)."):
+                                if st.button("Catat Ulang", help="Terapkan ulang hasil foto ini ke sesi aktif (mis. setelah menggeser slider)."):
                                     record_frame_into_session(sess, frame_sig, recognized_records, face_results, force=True)
                                     st.rerun()
-                                if st.button("↩️ Reset", help="Kosongkan sementara daftar hadir pada sesi aktif ini."):
+                                if st.button("Reset", help="Kosongkan sementara daftar hadir pada sesi aktif ini."):
                                     sess["present_map"] = {}
                                     sess["manual_status_map"] = {}
                                     sess["spoof_logs"] = []
@@ -1995,24 +2108,24 @@ def main():
                                     st.rerun()
                                 csv_bytes = df_att.to_csv(index=False).encode("utf-8")
                                 st.download_button(
-                                    "⬇️ CSV",
+                                    "Unduh CSV",
                                     data=csv_bytes,
                                     file_name=f"presensi_{session_name}.csv",
                                     mime="text/csv",
                                 )
                                 xlsx_bytes = db.export_excel_bytes(df_att, sheet_name=session_name)
                                 st.download_button(
-                                    "📊 Excel",
+                                    "Unduh Excel",
                                     data=xlsx_bytes,
                                     file_name=f"presensi_{session_name}.xlsx",
                                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                 )
 
-                            with st.expander(f"✏️ Koreksi / Hapus Kehadiran Per {subjek_lbl}"):
+                            with st.expander(f"Koreksi / Hapus Kehadiran Per {subjek_lbl}"):
                                 master_opts = db.list_students(id_col=id_lbl, label_col=group_lbl)
                                 opt_ids = master_opts[id_lbl].tolist()
                                 opt_lbls = {
-                                    str(r[id_lbl]): f"{r[id_lbl]} — {r['Nama']}"
+                                    str(r[id_lbl]): f"{r[id_lbl]} | {r['Nama']}"
                                     for _, r in master_opts.iterrows()
                                 }
                                 kc1, kc2 = st.columns(2)
@@ -2027,21 +2140,21 @@ def main():
                                     kor_action = st.selectbox(
                                         "Status / Aksi",
                                         options=[
-                                            "🗑️ Batalkan / Hapus Kehadiran",
-                                            "✅ Hadir (Manual)",
-                                            "📝 Izin",
-                                            "🏥 Sakit",
+                                            "Batalkan / Hapus Kehadiran",
+                                            "Hadir (Manual)",
+                                            "Izin",
+                                            "Sakit",
                                         ],
                                         key="kor_action",
                                     )
                                 if st.button("Terapkan Koreksi", width="stretch", key="btn_apply_kor"):
                                     now_k = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                                    if kor_action.startswith("🗑️"):
+                                    if kor_action.startswith("Batalkan"):
                                         sess["present_map"].pop(pick_person, None)
                                         sess["manual_status_map"].pop(pick_person, None)
-                                    elif kor_action.startswith("✅"):
+                                    elif kor_action.startswith("Hadir"):
                                         sess["manual_status_map"][pick_person] = {"status": "Hadir (Manual)", "score": 0.0, "time": now_k}
-                                    elif kor_action.startswith("📝"):
+                                    elif kor_action.startswith("Izin"):
                                         sess["present_map"].pop(pick_person, None)
                                         sess["manual_status_map"][pick_person] = {"status": "Izin", "score": 0.0, "time": now_k}
                                     else:
@@ -2050,7 +2163,7 @@ def main():
                                     st.rerun()
 
                         if sess["spoof_logs"]:
-                            st.error(f"🚨 {len(sess['spoof_logs'])} percobaan Spoof/Layar HP diblokir pada sesi ini:")
+                            st.error(f"{len(sess['spoof_logs'])} percobaan Spoof/Layar HP diblokir pada sesi ini:")
                             st.dataframe(pd.DataFrame(sess["spoof_logs"][-5:]), width="stretch", hide_index=True)
 
     # -------------------------------------------------------------------------
@@ -2068,16 +2181,16 @@ def main():
                 )
 
                 with st.form("form_enroll", clear_on_submit=True, border=False):
-                    nim_in = st.text_input(id_lbl, placeholder="Contoh: 230441100144 / EMP-01")
-                    nama_in = st.text_input("Nama Lengkap", placeholder="Contoh: Attala Alif")
+                    nim_in = st.text_input(id_lbl, placeholder="Masukkan nomor ID (contoh: ID-001)")
+                    nama_in = st.text_input("Nama Lengkap", placeholder="Masukkan nama lengkap")
                     group_in = st.text_input(
                         f"{group_lbl} / Label Tersendiri (Opsional)",
-                        placeholder="Contoh: Divisi IT / Kelas B / Panitia / VIP",
+                        placeholder="Contoh: Divisi Operasional / Unit B / Tamu",
                     )
                     enroll_photos = st.file_uploader(
                         "Unggah 1–3 Foto Referensi Wajah", type=["jpg", "jpeg", "png"], accept_multiple_files=True
                     )
-                    submitted = st.form_submit_button(f"✅ Daftarkan {subjek_lbl} ke Database", type="primary", width="stretch")
+                    submitted = st.form_submit_button(f"Daftarkan {subjek_lbl} ke Database", type="primary", width="stretch")
 
                 if submitted:
                     if not nim_in.strip() or not nama_in.strip() or not enroll_photos:
@@ -2101,7 +2214,7 @@ def main():
                             st.success(f"{subjek_lbl} {nama_in} ({nim_in}) berhasil {act_status} menggunakan {len(embs_new)} foto!")
                             st.rerun()
 
-            with st.expander("📦 Sampel Anti-Spoofing (Opsional)"):
+            with st.expander("Sampel Anti-Spoofing (Opsional)"):
                 st.caption("Simpan foto langsung (real) vs foto layar HP (spoof) ke `data/spoof_dataset/` untuk melatih model SVM lokal.")
                 sp_label = st.selectbox("Kategori Sampel", ["real (Wajah Langsung)", "spoof (Foto Layar HP)"])
                 sp_files = st.file_uploader("Unggah Foto Sampel Spoof/Real", type=["jpg", "jpeg", "png"], accept_multiple_files=True, key="spoof_up")
@@ -2130,11 +2243,11 @@ def main():
                     st.info(f"Belum ada {subjek_lbl.lower()} yang terdaftar di database.")
                 else:
                     st.dataframe(df_master, width="stretch", hide_index=True)
-                    d_col1, d_col2 = st.columns([2.2, 1.0])
+                    d_col1, d_col2 = st.columns([1.8, 1.2])
                     with d_col1:
                         del_nim = st.selectbox(f"Pilih {id_lbl} untuk dihapus", options=df_master[id_lbl].tolist(), label_visibility="collapsed")
                     with d_col2:
-                        if st.button(f"🗑️ Hapus {id_lbl}", width="stretch"):
+                        if st.button(f"Hapus {id_lbl}", width="stretch"):
                             if db.delete(del_nim):
                                 st.success(f"{id_lbl} {del_nim} dihapus.")
                                 st.rerun()
@@ -2148,9 +2261,9 @@ def main():
             st.markdown(
                 """
                 <div class="empty-card">
-                    <div style="font-size:1.35rem; margin-bottom:0.35rem;">🔬 Laboratorium Visual Tahap PCD</div>
+                    <div class="empty-card-title">Laboratorium Visual Tahap PCD</div>
                     <div style="font-size:0.9rem; max-width:600px; margin:0 auto; line-height:1.5;">
-                        Proses minimal satu foto pada tab <strong>📸 Ambil Presensi</strong> (bisa memakai <em>Sampel Uji Bawaan</em>)
+                        Proses minimal satu foto pada tab <strong>Presensi</strong> (dapat memakai <em>Sampel Uji Bawaan</em>)
                         untuk memeriksa transformasi <strong>Adaptive CLAHE + Gamma</strong>, <strong>5-Landmark Alignment</strong>,
                         dan <strong>Peta Tekstur Mikro LBP</strong> secara transparan.
                     </div>
@@ -2166,10 +2279,10 @@ def main():
 
             delta_l = e_inf["after_l"] - e_inf["before_l"]
             render_kpi_cards([
-                {"label": "Luminansi Awal (L*)", "value": f"{e_inf['before_l']}", "sub": str(e_inf["status_before"]), "accent": "#64748B"},
-                {"label": "Luminansi Akhir (L*)", "value": f"{e_inf['after_l']}", "sub": f"{delta_l:+.2f} ΔL*", "accent": "#10B981"},
-                {"label": "Gamma Adaptif", "value": f"{e_inf['gamma_used']}", "sub": "Koreksi Otomatis", "accent": "#2563EB"},
-                {"label": "Ketajaman Laplacian", "value": f"{sd.get('laplacian_var', '-')}", "sub": f"Spekular {sd.get('specular_ratio', '-')}", "accent": "#8B5CF6"},
+                {"label": "Luminansi Akhir (L*)", "value": f"{e_inf['after_l']}", "sub": f"{delta_l:+.2f} ΔL*", "accent": "#047857"},
+                {"label": "Luminansi Awal (L*)", "value": f"{e_inf['before_l']}", "sub": str(e_inf["status_before"]), "accent": "#475569"},
+                {"label": "Gamma Adaptif", "value": f"{e_inf['gamma_used']}", "sub": "Koreksi Otomatis", "accent": "#1D4ED8"},
+                {"label": "Ketajaman Laplacian", "value": f"{sd.get('laplacian_var', '-')}", "sub": f"Spekular {sd.get('specular_ratio', '-')}", "accent": "#0F294A"},
             ])
 
             c1, c2 = st.columns(2, gap="medium")
@@ -2248,10 +2361,10 @@ def main():
             st.markdown('<p class="section-sub">Evaluasi otomatis pada 300 pasangan uji (positif & negatif) dari 96 individu.</p>', unsafe_allow_html=True)
 
             render_kpi_cards([
-                {"label": "Akurasi Verifikasi", "value": f"{lfw_m.get('accuracy', 0)*100:.2f}%", "sub": f"{lfw_m.get('n_pairs_total', 300)} pasangan uji", "accent": "#10B981"},
-                {"label": "F1-Score", "value": f"{lfw_m.get('f1_score', 0)*100:.2f}%", "sub": f"Prec {lfw_m.get('precision', 0)*100:.1f}% · Rec {lfw_m.get('recall', 0)*100:.1f}%", "accent": "#2563EB"},
-                {"label": "Cosine (Identik vs Beda)", "value": f"{lfw_m.get('mean_same_score', 0):.3f} vs {lfw_m.get('mean_diff_score', 0):.3f}", "sub": f"Ambang {lfw_m.get('cosine_threshold', 0.363)}", "accent": "#6366F1"},
-                {"label": "Rerata Latensi CPU", "value": f"{lfw_m.get('avg_latency_ms', 0):.1f} ms", "sub": "Per wajah (tanpa GPU)", "accent": "#0EA5E9"},
+                {"label": "Akurasi Verifikasi", "value": f"{lfw_m.get('accuracy', 0)*100:.2f}%", "sub": f"{lfw_m.get('n_pairs_total', 300)} pasangan uji", "accent": "#0F294A"},
+                {"label": "F1-Score", "value": f"{lfw_m.get('f1_score', 0)*100:.2f}%", "sub": f"Prec {lfw_m.get('precision', 0)*100:.1f}% · Rec {lfw_m.get('recall', 0)*100:.1f}%", "accent": "#1D4ED8"},
+                {"label": "Cosine (Identik vs Beda)", "value": f"{lfw_m.get('mean_same_score', 0):.3f} vs {lfw_m.get('mean_diff_score', 0):.3f}", "sub": f"Ambang {lfw_m.get('cosine_threshold', 0.363)}", "accent": "#047857"},
+                {"label": "Rerata Latensi CPU", "value": f"{lfw_m.get('avg_latency_ms', 0):.1f} ms", "sub": "Per wajah (tanpa GPU)", "accent": "#475569"},
             ])
 
             g_lfw = os.path.join(EXP_DIR, "grafik_lfw_cosine.png")
@@ -2304,16 +2417,16 @@ def main():
 
             if summary.get("antispoofing") and os.path.exists(g_cm):
                 with st.container(border=True):
-                    st.markdown('<p class="section-title">C. Hasil Evaluasi Anti-Spoofing LBP + SVM</p>', unsafe_allow_html=True)
+                    st.markdown('<p class="section-title">C. Hasil Evaluasi Anti-Spoofing (MiniFASNet ONNX + 105-D SVM)</p>', unsafe_allow_html=True)
                     sp_m = summary["antispoofing"]
                     c_sp1, c_sp2 = st.columns([1.0, 1.2], gap="medium")
                     with c_sp1:
                         render_kpi_cards([
-                            {"label": "Akurasi Anti-Spoof", "value": f"{sp_m['accuracy']*100:.2f}%", "sub": f"{sp_m['n_real']} Real + {sp_m['n_spoof']} Spoof", "accent": "#10B981"},
-                            {"label": "ROC-AUC", "value": f"{sp_m['roc_auc']:.4f}", "sub": "Validasi SVM LBP", "accent": "#2563EB"},
+                            {"label": "Akurasi Anti-Spoof", "value": f"{sp_m['accuracy']*100:.2f}%", "sub": f"{sp_m['n_real']} Real + {sp_m['n_spoof']} Spoof", "accent": "#0F294A"},
+                            {"label": "ROC-AUC", "value": f"{sp_m['roc_auc']:.4f}", "sub": "Validasi Hybrid Anti-Spoof", "accent": "#1D4ED8"},
                         ])
                     with c_sp2:
-                        st.image(g_cm, caption="Confusion Matrix LBP + SVM", width="stretch")
+                        st.image(g_cm, caption="Confusion Matrix Evaluasi Anti-Spoofing", width="stretch")
 
 
 if __name__ == "__main__":

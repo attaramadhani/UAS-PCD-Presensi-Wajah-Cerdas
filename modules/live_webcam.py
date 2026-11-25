@@ -21,12 +21,17 @@ _LIVE_WEBCAM_HTML = """
     <video class="cam-video" autoplay playsinline muted></video>
     <canvas class="cam-overlay"></canvas>
     <div class="cam-hud-top">
-      <span class="cam-live-badge"><span class="cam-dot"></span><span class="cam-live-txt">LIVE</span></span>
+      <span class="cam-live-badge"><span class="cam-dot" aria-hidden="true"></span><span class="cam-live-txt">LIVE</span></span>
       <span class="cam-light-badge" style="display:none;"></span>
     </div>
-    <div class="cam-hud-bottom" style="display:none;"></div>
+    <div class="cam-hud-bottom" style="display:none;" role="status" aria-live="polite"></div>
     <div class="cam-msg-box">
-      <div class="cam-msg-icon">🎥</div>
+      <div class="cam-msg-icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter">
+          <rect x="2" y="6" width="14" height="12" rx="2"></rect>
+          <polygon points="16 10 22 7 22 17 16 14"></polygon>
+        </svg>
+      </div>
       <div class="cam-msg-title">Menghubungkan Webcam Browser...</div>
       <div class="cam-msg-desc">Klik <strong>Izinkan / Allow</strong> jika browser meminta izin akses kamera.</div>
       <button type="button" class="cam-retry-btn" style="display:none;">Coba Hubungkan Ulang</button>
@@ -35,12 +40,14 @@ _LIVE_WEBCAM_HTML = """
   <div class="cam-toolbar">
     <div class="cam-legend">
       <span class="leg"><i style="background:#10B981"></i>Hadir</span>
-      <span class="leg"><i style="background:#2563EB"></i>Sudah Absen (1×)</span>
+      <span class="leg"><i style="background:#2563EB"></i>Sudah Absen (1x)</span>
       <span class="leg"><i style="background:#EF4444"></i>Spoof</span>
       <span class="leg"><i style="background:#F59E0B"></i>Asing</span>
     </div>
     <div class="cam-controls">
-      <select class="cam-select" title="Pilih Kamera" style="display:none;"></select>
+      <label class="cam-select-label" style="display:none;">Kamera
+        <select class="cam-select" aria-label="Pilih Kamera"></select>
+      </label>
       <span class="cam-fps">Menyiapkan...</span>
     </div>
   </div>
@@ -50,31 +57,33 @@ _LIVE_WEBCAM_HTML = """
 _LIVE_WEBCAM_CSS = """
 :host {
   display: block;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }
 .cam-shell {
   width: 100%;
-  border-radius: 14px;
+  border-radius: 8px;
   overflow: hidden;
   background: #0F172A;
-  border: 1px solid #CBD5E1;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+  border: 1px solid #D8DFE8;
+  box-shadow: 0 4px 14px rgba(15, 41, 74, 0.08);
 }
 .cam-stage {
   position: relative;
   width: 100%;
+  aspect-ratio: 4 / 3;
   min-height: 240px;
-  background: #0B1220;
+  background: #0F172A;
   overflow: hidden;
 }
 .cam-stage.is-live {
+  aspect-ratio: auto;
   min-height: 0;
 }
 .cam-video {
   width: 100%;
   height: auto;
   display: block;
-  background: #0B1220;
+  background: #0F172A;
 }
 .cam-video.mirrored {
   transform: scaleX(-1);
@@ -102,38 +111,36 @@ _LIVE_WEBCAM_CSS = """
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(15, 23, 42, 0.78);
+  background: rgba(15, 23, 42, 0.88);
   color: #F8FAFC;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  letter-spacing: 0.03em;
+  padding: 4px 9px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
 }
 .cam-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #10B981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.28);
 }
 .cam-dot.scanning {
   background: #38BDF8;
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.35);
 }
 .cam-dot.error {
   background: #EF4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.32);
 }
 .cam-light-badge {
-  background: rgba(15, 23, 42, 0.78);
-  color: #E2E8F0;
+  background: rgba(15, 23, 42, 0.88);
+  color: #F1F5F9;
   font-size: 11px;
   font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-variant-numeric: tabular-nums;
+  padding: 4px 9px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.20);
 }
 .cam-hud-bottom {
   position: absolute;
@@ -141,26 +148,26 @@ _LIVE_WEBCAM_CSS = """
   right: 10px;
   bottom: 10px;
   padding: 8px 12px;
-  border-radius: 10px;
+  border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
   line-height: 1.35;
   color: #FFFFFF;
-  background: rgba(15, 23, 42, 0.84);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 23, 42, 0.90);
+  border: 1px solid rgba(255, 255, 255, 0.20);
   pointer-events: none;
 }
 .cam-hud-bottom.kind-success {
-  background: rgba(6, 95, 70, 0.90);
-  border-color: rgba(16, 185, 129, 0.55);
+  background: rgba(6, 95, 70, 0.94);
+  border-color: #34D399;
 }
 .cam-hud-bottom.kind-error {
-  background: rgba(153, 27, 27, 0.92);
-  border-color: rgba(248, 113, 113, 0.55);
+  background: rgba(153, 27, 27, 0.94);
+  border-color: #FCA5A5;
 }
 .cam-hud-bottom.kind-warn {
-  background: rgba(146, 64, 14, 0.92);
-  border-color: rgba(251, 191, 36, 0.55);
+  background: rgba(146, 64, 14, 0.94);
+  border-color: #FCD34D;
 }
 .cam-msg-box {
   position: absolute;
@@ -171,38 +178,48 @@ _LIVE_WEBCAM_CSS = """
   justify-content: center;
   text-align: center;
   padding: 20px;
-  background: rgba(15, 23, 42, 0.94);
+  background: #0F172A;
   color: #F8FAFC;
   gap: 8px;
 }
 .cam-msg-icon {
-  font-size: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #CBD5E1;
   line-height: 1;
 }
 .cam-msg-title {
   font-size: 15px;
   font-weight: 700;
-  color: #F8FAFC;
+  color: #FFFFFF;
 }
 .cam-msg-desc {
   font-size: 12.5px;
-  color: #CBD5E1;
+  color: #E2E8F0;
   max-width: 440px;
   line-height: 1.5;
 }
 .cam-retry-btn {
   margin-top: 6px;
-  padding: 7px 14px;
-  border-radius: 8px;
-  border: none;
-  background: #2563EB;
+  min-height: 44px;
+  padding: 9px 16px;
+  border-radius: 6px;
+  border: 1px solid #1E40AF;
+  background: #1D4ED8;
   color: #FFFFFF;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 120ms ease;
 }
 .cam-retry-btn:hover {
-  background: #1D4ED8;
+  background: #1E40AF;
+}
+.cam-retry-btn:focus-visible,
+.cam-select:focus-visible {
+  outline: 2px solid #60A5FA;
+  outline-offset: 2px;
 }
 .cam-toolbar {
   display: flex;
@@ -211,8 +228,8 @@ _LIVE_WEBCAM_CSS = """
   flex-wrap: wrap;
   gap: 8px;
   padding: 8px 12px;
-  background: #F8FAFC;
-  border-top: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  border-top: 1px solid #D8DFE8;
 }
 .cam-legend {
   display: flex;
@@ -220,7 +237,7 @@ _LIVE_WEBCAM_CSS = """
   gap: 10px;
   font-size: 11.5px;
   font-weight: 600;
-  color: #334155;
+  color: #1E293B;
 }
 .cam-legend .leg {
   display: inline-flex;
@@ -231,27 +248,43 @@ _LIVE_WEBCAM_CSS = """
   display: inline-block;
   width: 9px;
   height: 9px;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 .cam-controls {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.cam-select {
+.cam-select-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 11.5px;
-  padding: 3px 7px;
+  font-weight: 600;
+  color: #334155;
+}
+.cam-select {
+  font-size: 12px;
+  min-height: 36px;
+  padding: 4px 8px;
   border-radius: 6px;
   border: 1px solid #CBD5E1;
   background: #FFFFFF;
-  color: #0F172A;
+  color: #111827;
   max-width: 170px;
+  cursor: pointer;
 }
 .cam-fps {
   font-size: 11.5px;
   font-weight: 600;
-  color: #475569;
+  color: #334155;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
   font-variant-numeric: tabular-nums;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cam-retry-btn {
+    transition: none;
+  }
 }
 """
 
@@ -323,12 +356,20 @@ function sampleMeanBrightness(ctx, w, h) {
   }
 }
 
-function renderMessage(ctrl, icon, title, desc, showRetry) {
+const CAM_STATE_SVGS = {
+  cam: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter"><rect x="2" y="6" width="14" height="12" rx="2"></rect><polygon points="16 10 22 7 22 17 16 14"></polygon></svg>',
+  warn: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter"><path d="M12 3L2 20h20L12 3z"></path><line x1="12" y1="10" x2="12" y2="14"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
+  lock: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>'
+};
+
+function renderMessage(ctrl, iconKey, title, desc, showRetry) {
   if (!ctrl.els) return;
   const { stage, msgBox, msgIcon, msgTitle, msgDesc, retryBtn, dotEl, liveTxt } = ctrl.els;
   if (stage) stage.classList.remove("is-live");
   msgBox.style.display = "flex";
-  msgIcon.textContent = icon;
+  if (msgIcon) {
+    msgIcon.innerHTML = CAM_STATE_SVGS[iconKey] || CAM_STATE_SVGS.cam;
+  }
   msgTitle.textContent = title;
   msgDesc.textContent = desc;
   retryBtn.style.display = showRetry ? "inline-block" : "none";
@@ -345,7 +386,7 @@ function hideMessage(ctrl) {
   if (stage) stage.classList.add("is-live");
   msgBox.style.display = "none";
   if (dotEl) dotEl.classList.remove("error");
-  if (liveTxt) liveTxt.textContent = "LIVE · AUTO";
+  if (liveTxt) liveTxt.textContent = "LIVE | AUTO";
 }
 
 function updateHud(ctrl) {
@@ -363,7 +404,7 @@ function updateHud(ctrl) {
     let text = ctrl.hudText || "";
     let kind = ctrl.hudKind || "info";
     if (ctrl.darkStreak >= 3) {
-      text = "⚠️ Gambar kamera sangat gelap/hitam — pastikan penutup kamera (privacy shutter) laptop terbuka.";
+      text = "Peringatan: Gambar kamera sangat gelap atau hitam. Pastikan penutup kamera (privacy shutter) laptop terbuka.";
       kind = "warn";
     }
     if (text) {
@@ -385,7 +426,7 @@ function updateHud(ctrl) {
     } else {
       const nBox = (ctrl.boxes || []).length;
       const scanLbl = ctrl.seq > 0 ? `Scan #${ctrl.seq}` : "Siap";
-      fpsEl.textContent = `${scanLbl} · ${nBox} wajah`;
+      fpsEl.textContent = `${scanLbl} | ${nBox} wajah`;
     }
   }
 }
@@ -397,8 +438,10 @@ async function populateDevices(ctrl) {
     const devs = await navigator.mediaDevices.enumerateDevices();
     const cams = devs.filter((d) => d.kind === "videoinput");
     const sel = ctrl.els.camSelect;
+    const selLbl = ctrl.els.camSelectLabel;
     if (cams.length <= 1) {
-      sel.style.display = "none";
+      if (selLbl) selLbl.style.display = "none";
+      else sel.style.display = "none";
       return;
     }
     const activeTrack = ctrl.stream && ctrl.stream.getVideoTracks()[0];
@@ -411,6 +454,7 @@ async function populateDevices(ctrl) {
       if (cam.deviceId === activeId) opt.selected = true;
       sel.appendChild(opt);
     });
+    if (selLbl) selLbl.style.display = "inline-flex";
     sel.style.display = "inline-block";
   } catch (_) {}
 }
@@ -420,9 +464,9 @@ async function startCamera(ctrl) {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     ctrl.fatalError = "insecure";
     ctrl.fatalInfo = {
-      icon: "📱",
+      icon: "lock",
       title: "Kamera Live Membutuhkan localhost atau HTTPS",
-      desc: "Browser memblokir live webcam pada alamat IP HTTP non-localhost. Jika membuka dari HP, gunakan tab 'Upload / HP'. Untuk Webcam Live otomatis, buka di laptop via http://localhost:8501.",
+      desc: "Browser memblokir live webcam pada alamat IP HTTP non-localhost. Jika membuka dari HP, gunakan mode 'Upload / HP'. Untuk Webcam Live otomatis, buka di laptop via http://localhost:8501.",
       showRetry: false,
     };
     renderMessage(ctrl, ctrl.fatalInfo.icon, ctrl.fatalInfo.title, ctrl.fatalInfo.desc, ctrl.fatalInfo.showRetry);
@@ -435,7 +479,7 @@ async function startCamera(ctrl) {
   ctrl.fatalInfo = null;
   renderMessage(
     ctrl,
-    "🎥",
+    "cam",
     "Menghubungkan Webcam Browser...",
     "Izinkan akses kamera saat browser menampilkan permintaan izin.",
     false
@@ -487,8 +531,8 @@ async function startCamera(ctrl) {
       title = "Webcam Sedang Dipakai Aplikasi Lain";
       desc = "Tutup Zoom, Google Meet, OBS, atau aplikasi Camera bawaan Windows yang sedang memakai kamera, lalu klik Coba Hubungkan Ulang.";
     }
-    ctrl.fatalInfo = { icon: "⚠️", title, desc, showRetry: true };
-    renderMessage(ctrl, "⚠️", title, desc, true);
+    ctrl.fatalInfo = { icon: "warn", title, desc, showRetry: true };
+    renderMessage(ctrl, "warn", title, desc, true);
     updateHud(ctrl);
   }
 }
@@ -720,6 +764,7 @@ export default function (component) {
     msgTitle: parentElement.querySelector(".cam-msg-title"),
     msgDesc: parentElement.querySelector(".cam-msg-desc"),
     retryBtn: parentElement.querySelector(".cam-retry-btn"),
+    camSelectLabel: parentElement.querySelector(".cam-select-label"),
     camSelect: parentElement.querySelector(".cam-select"),
     fpsEl: parentElement.querySelector(".cam-fps"),
   };
